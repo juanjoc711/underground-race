@@ -8,11 +8,11 @@ import * as z from 'zod';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea'; // Assuming you have a Textarea component
+import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Upload } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast'; // Assuming useToast hook exists
+import { useToast } from '@/hooks/use-toast';
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
@@ -102,9 +102,9 @@ export default function PhotoUpload() {
                 <FormItem>
                   <FormLabel htmlFor="image-upload">Photo</FormLabel>
                   <FormControl>
-                     <>
+                       {/* Make Input the direct child of FormControl */}
                        <Input
-                        id="image-upload"
+                        id="image-upload" // Keep id here for the label association
                         type="file"
                         accept="image/*"
                         className="file:text-foreground" // Style the file input button text
@@ -113,13 +113,13 @@ export default function PhotoUpload() {
                         // RHF doesn't directly work well with file inputs, so we use onChange and manually set value.
                         // We omit field.onChange, field.value, field.ref from the input itself.
                       />
-                      {preview && (
-                        <div className="mt-4 w-full aspect-video relative rounded-md overflow-hidden border">
-                           <img src={preview} alt="Selected preview" className="object-contain w-full h-full" />
-                         </div>
-                       )}
-                    </>
                   </FormControl>
+                   {/* Render preview outside FormControl but within FormItem */}
+                  {preview && (
+                    <div className="mt-4 w-full aspect-video relative rounded-md overflow-hidden border">
+                       <img src={preview} alt="Selected preview" className="object-contain w-full h-full" />
+                     </div>
+                   )}
                   <FormMessage />
                 </FormItem>
               )}
