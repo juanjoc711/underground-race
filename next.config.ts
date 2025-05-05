@@ -16,6 +16,11 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/**',
       },
+      // Add other domains if needed, e.g., for the logo if hosted elsewhere
+      // {
+      //   protocol: 'https',
+      //   hostname: 'your-logo-domain.com',
+      // },
     ],
   },
 };
