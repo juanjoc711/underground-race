@@ -28,7 +28,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" className="dark">
-      {/* Next.js injects head content based on metadata */}
       <body
         className={cn(
           'min-h-screen bg-background font-sans antialiased',
