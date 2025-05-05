@@ -10,36 +10,37 @@ import type { Place } from '@/services/geo';
 // Mock KDD Data - Replace with actual data fetching
 const mockKdds: (Place & { time: string, description: string })[] = [
   {
-    name: 'Encuentro Viernes Noche',
-    location: { lat: 37.4275, lng: -122.1697 },
-    time: 'Vie 8:00 PM',
-    description: 'Reunión semanal en el lote del antiguo almacén.',
+    name: 'Encuentro Sardinero Nocturno',
+    location: { lat: 43.4730, lng: -3.7800 }, // El Sardinero approx
+    time: 'Vie 9:00 PM',
+    description: 'Reunión semanal en el parking de la playa.',
   },
   {
-    name: 'Ruta Golden Gate',
-    location: { lat: 37.8199, lng: -122.4783 },
-    time: 'Sáb 2:00 PM',
-    description: 'Ruta panorámica comenzando cerca del mirador del puente.',
+    name: 'Ruta Costera',
+    location: { lat: 43.4650, lng: -3.8500 }, // Near Cabo Mayor approx
+    time: 'Sáb 3:00 PM',
+    description: 'Ruta panorámica por la costa oeste de Santander.',
   },
   {
-    name: 'Showdown Centro Ciudad',
-    location: { lat: 37.7749, lng: -122.4194 }, // SF Downtown approx
-    time: 'Sáb 9:00 PM',
-    description: 'Encuentro informal en el parking de varias plantas.',
+    name: 'Polígono Candina Meet',
+    location: { lat: 43.4500, lng: -3.8190 }, // Polígono Candina approx
+    time: 'Sáb 10:00 PM',
+    description: 'Encuentro informal en zona industrial.',
   },
 ];
 
 export default function MapPage() {
+  // Keep state for KDDs, but remove separate loading state for the map itself
   const [kdds, setKdds] = useState<(Place & { time: string, description: string })[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [listLoading, setListLoading] = useState(true);
 
   useEffect(() => {
     const fetchKdds = async () => {
-      setLoading(true);
+      setListLoading(true);
       // Simulate fetching data
       await new Promise(resolve => setTimeout(resolve, 500)); // Simulate network delay
       setKdds(mockKdds);
-      setLoading(false);
+      setListLoading(false);
     };
 
     fetchKdds();
@@ -50,21 +51,16 @@ export default function MapPage() {
     <div className="container mx-auto flex flex-col gap-8 px-4 py-8 md:px-6 lg:flex-row lg:px-8">
       {/* Map Section */}
       <div className="flex-grow lg:w-2/3">
-        <Card className="h-[60vh] shadow-lg lg:h-full">
+        <Card className="h-[60vh] shadow-lg lg:h-[70vh]"> {/* Adjusted height */}
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <MapPin className="h-5 w-5 text-primary" />
-              Ubicaciones KDD
+              Ubicaciones KDD (Santander)
             </CardTitle>
           </CardHeader>
           <CardContent className="h-[calc(100%-4rem)] p-0">
-            {loading ? (
-              <div className="flex h-full items-center justify-center">
-                <p className="text-muted-foreground">Cargando Mapa...</p>
-              </div>
-            ) : (
-              <MapComponent locations={kdds} />
-            )}
+             {/* MapComponent now handles its own loading/error states */}
+             <MapComponent locations={kdds} />
           </CardContent>
         </Card>
       </div>
@@ -79,7 +75,7 @@ export default function MapPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            {loading ? (
+            {listLoading ? (
               <p className="text-muted-foreground">Cargando encuentros...</p>
             ) : kdds.length > 0 ? (
               <ul className="space-y-4">

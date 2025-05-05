@@ -1,0 +1,30 @@
+[
+  {
+    "id": "3a5c73b7-9d77-48e4-8409-cceb1708c386",
+    "url": "/uploads/d5e9fdc1-afd7-4acd-a49b-d812332fcb15.jpg",
+    "alt": "Uploaded image d5e9fdc1-afd7-4acd-a49b-d812332fcb15.jpg",
+    "caption": "",
+    "uploadedAt": "2025-05-05T21:40:54.991Z"
+  },
+  {
+    "id": "63b2d351-31f9-4d31-a609-eee347d8043a",
+    "url": "/uploads/747c3356-8eb0-42f0-9c18-891a26b28ac7.jpg",
+    "alt": "Uploaded image 747c3356-8eb0-42f0-9c18-891a26b28ac7.jpg",
+    "caption": "",
+    "uploadedAt": "2025-05-05T21:41:04.801Z"
+  },
+  {
+    "id": "1638e2d5-2930-4e5b-8276-a9456c7609d4",
+    "url": "/uploads/40ca4bc5-a242-4584-9ed2-71fa63e5b0b1.jpg",
+    "alt": "Camaro",
+    "caption": "Camaro",
+    "uploadedAt": "2025-05-05T21:46:18.362Z"
+  },
+  {
+    "id": "d852dbb3-f604-4c7c-813b-520e6549235a",
+    "url": "/uploads/a882e851-eae5-49b2-88c0-b97a679a4d3f.jpg",
+    "alt": "Porsche",
+    "caption": "Porsche",
+    "uploadedAt": "2025-05-05T21:46:41.343Z"
+  }
+]
