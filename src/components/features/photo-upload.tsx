@@ -1,13 +1,13 @@
 // src/components/features/photo-upload.tsx
 "use client";
 
-import * as React from 'react'; // Added React import
-import { useState, useRef } from 'react'; // Combined React hooks
+import * as React from 'react';
+import { useState, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { v4 as uuidv4 } from 'uuid'; // Keep uuid import
-import { useRouter } from 'next/navigation'; // Keep useRouter
+import { v4 as uuidv4 } from 'uuid';
+import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -22,13 +22,13 @@ const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/web
 
 const formSchema = z.object({
   image: z
-    .custom<FileList>((val) => val instanceof FileList && val.length > 0, "Image is required.")
-    .refine((files) => files?.[0]?.size <= MAX_FILE_SIZE, `Max file size is 5MB.`)
+    .custom<FileList>((val) => val instanceof FileList && val.length > 0, "La imagen es obligatoria.")
+    .refine((files) => files?.[0]?.size <= MAX_FILE_SIZE, `El tamaño máximo del archivo es 5MB.`)
     .refine(
       (files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
-      ".jpg, .jpeg, .png and .webp files are accepted."
+      "Se aceptan archivos .jpg, .jpeg, .png y .webp."
     ),
-  caption: z.string().max(150, "Caption cannot exceed 150 characters.").optional(),
+  caption: z.string().max(150, "La descripción no puede exceder los 150 caracteres.").optional(),
 });
 
 type PhotoUploadFormValues = z.infer<typeof formSchema>;
@@ -45,11 +45,10 @@ const readFileAsDataURL = (file: File): Promise<string> => {
 
 
 export default function PhotoUpload() {
-  const router = useRouter(); // Initialize router
+  const router = useRouter();
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [preview, setPreview] = useState<string | null>(null);
-  // Ref for file input to allow clearing
   const fileInputRef = useRef<HTMLInputElement>(null);
 
 
@@ -66,24 +65,20 @@ export default function PhotoUpload() {
       try {
         const dataUrl = await readFileAsDataURL(file);
         setPreview(dataUrl);
-         // Manually set value for RHF and trigger validation
         form.setValue('image', event.target.files as FileList, { shouldValidate: true });
       } catch (error) {
-        console.error("Error reading file:", error);
+        console.error("Error leyendo archivo:", error);
         setPreview(null);
-        // Clear RHF value if preview fails
         form.setValue('image', new DataTransfer().files, { shouldValidate: true });
         toast({
           variant: "destructive",
           title: "Error",
-          description: "Could not generate image preview.",
+          description: "No se pudo generar la vista previa de la imagen.",
         });
       }
     } else {
       setPreview(null);
-       // Clear RHF value if file is invalid
       form.setValue('image', new DataTransfer().files, { shouldValidate: true });
-      // Trigger validation manually if file is invalid or cleared
       form.trigger('image');
     }
   };
@@ -97,14 +92,13 @@ export default function PhotoUpload() {
     if (!file) {
        toast({
          variant: 'destructive',
-         title: 'No File Selected',
-         description: 'Please select an image to upload.',
+         title: 'No se seleccionó archivo',
+         description: 'Por favor, selecciona una imagen para subir.',
        });
        setIsSubmitting(false);
        return;
     }
 
-    // Create FormData to send file and caption
     const formData = new FormData();
     formData.append('image', file);
     if (caption) {
@@ -112,43 +106,39 @@ export default function PhotoUpload() {
     }
 
     try {
-      // Send data to the API route
       const response = await fetch('/api/upload', {
         method: 'POST',
         body: formData,
-        // No 'Content-Type' header needed, browser sets it for FormData
       });
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || 'Upload failed');
+        throw new Error(errorData.message || 'Falló la subida');
       }
 
       const result = await response.json();
-      console.log('Upload successful:', result);
+      console.log('Subida exitosa:', result);
 
       toast({
-        title: "Photo Uploaded!",
-        description: "Your ride has been added to the gallery.",
+        title: "¡Foto Subida!",
+        description: "Tu coche ha sido añadido a la galería.",
       });
 
-      form.reset(); // Reset form fields
-      setPreview(null); // Clear preview
+      form.reset();
+      setPreview(null);
 
-      // Attempt to clear file input more reliably
       if (fileInputRef.current) {
         fileInputRef.current.value = '';
       }
 
-
-      router.refresh(); // Refresh the page to show the new image
+      router.refresh();
 
     } catch (error: any) {
-      console.error('Upload error:', error);
+      console.error('Error de subida:', error);
       toast({
         variant: 'destructive',
-        title: 'Upload Failed',
-        description: error.message || 'Could not save the photo. Please try again.',
+        title: 'Subida Fallida',
+        description: error.message || 'No se pudo guardar la foto. Por favor, inténtalo de nuevo.',
       });
     } finally {
       setIsSubmitting(false);
@@ -160,7 +150,7 @@ export default function PhotoUpload() {
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Upload className="w-5 h-5 text-primary" />
-          Share Your Ride
+          Comparte Tu Coche
         </CardTitle>
       </CardHeader>
       <Form {...form}>
@@ -169,29 +159,24 @@ export default function PhotoUpload() {
             <FormField
               control={form.control}
               name="image"
-              // We use render prop but don't spread field directly onto Input type="file"
-              render={({ fieldState }) => ( // Use fieldState for error access
+              render={({ fieldState }) => (
                 <FormItem>
-                  <FormLabel htmlFor="image-upload">Photo</FormLabel>
+                  <FormLabel htmlFor="image-upload">Foto</FormLabel>
                   <FormControl>
-                    {/* Assign the ref here */}
                      <Input
                        id="image-upload"
-                       ref={fileInputRef} // Assign ref
+                       ref={fileInputRef}
                        type="file"
                        accept={ACCEPTED_IMAGE_TYPES.join(',')}
                        className="file:text-foreground"
-                       onChange={handleFileChange} // Use our custom handler
-                       // Omit RHF's value, onChange, ref props here
+                       onChange={handleFileChange}
                      />
                   </FormControl>
-                   {/* Render preview outside FormControl but within FormItem */}
                    {preview && (
                     <div className="mt-4 w-full aspect-video relative rounded-md overflow-hidden border">
-                       <img src={preview} alt="Selected preview" className="object-contain w-full h-full" />
+                       <img src={preview} alt="Vista previa seleccionada" className="object-contain w-full h-full" />
                      </div>
                    )}
-                  {/* Display error message from fieldState */}
                   <FormMessage>{fieldState.error?.message}</FormMessage>
                 </FormItem>
               )}
@@ -201,10 +186,10 @@ export default function PhotoUpload() {
               name="caption"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Caption (Optional)</FormLabel>
+                  <FormLabel>Descripción (Opcional)</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Tell us about your ride..."
+                      placeholder="Cuéntanos sobre tu coche..."
                       {...field}
                     />
                   </FormControl>
@@ -215,7 +200,7 @@ export default function PhotoUpload() {
           </CardContent>
           <CardFooter>
             <Button type="submit" disabled={isSubmitting || !form.formState.isValid} className="w-full">
-              {isSubmitting ? 'Uploading...' : 'Upload Photo'}
+              {isSubmitting ? 'Subiendo...' : 'Subir Foto'}
             </Button>
           </CardFooter>
         </form>

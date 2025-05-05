@@ -2,69 +2,66 @@
 "use client"; // Required for Map interaction
 
 import { useState, useEffect } from 'react';
-import MapComponent from '@/components/features/map-component'; // Assuming MapComponent exists
+import MapComponent from '@/components/features/map-component';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { List, MapPin } from 'lucide-react';
-import type { Place } from '@/services/geo'; // Import Place type
+import type { Place } from '@/services/geo';
 
 // Mock KDD Data - Replace with actual data fetching
 const mockKdds: (Place & { time: string, description: string })[] = [
   {
-    name: 'Friday Night Meet',
+    name: 'Encuentro Viernes Noche',
     location: { lat: 37.4275, lng: -122.1697 },
-    time: 'Fri 8:00 PM',
-    description: 'Weekly gathering at the old warehouse lot.',
+    time: 'Vie 8:00 PM',
+    description: 'Reunión semanal en el lote del antiguo almacén.',
   },
   {
-    name: 'Golden Gate Cruise',
+    name: 'Ruta Golden Gate',
     location: { lat: 37.8199, lng: -122.4783 },
-    time: 'Sat 2:00 PM',
-    description: 'Scenic cruise starting near the bridge viewpoint.',
+    time: 'Sáb 2:00 PM',
+    description: 'Ruta panorámica comenzando cerca del mirador del puente.',
   },
   {
-    name: 'Downtown Showdown',
+    name: 'Showdown Centro Ciudad',
     location: { lat: 37.7749, lng: -122.4194 }, // SF Downtown approx
-    time: 'Sat 9:00 PM',
-    description: 'Informal meetup at the multi-story car park.',
+    time: 'Sáb 9:00 PM',
+    description: 'Encuentro informal en el parking de varias plantas.',
   },
 ];
 
 export default function MapPage() {
-  // State to hold KDD locations - Use Place[]
   const [kdds, setKdds] = useState<(Place & { time: string, description: string })[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate fetching KDD data
     const fetchKdds = async () => {
       setLoading(true);
-      // Replace with actual API call if available
+      // Simulate fetching data
       await new Promise(resolve => setTimeout(resolve, 500)); // Simulate network delay
       setKdds(mockKdds);
       setLoading(false);
     };
 
     fetchKdds();
-  }, []);
+  }, []); // Empty dependency array ensures this runs only once on mount
 
   return (
-    <div className="container mx-auto py-8 px-4 md:px-6 lg:px-8 flex flex-col lg:flex-row gap-8">
+    <div className="container mx-auto flex flex-col gap-8 px-4 py-8 md:px-6 lg:flex-row lg:px-8">
       {/* Map Section */}
       <div className="flex-grow lg:w-2/3">
-        <Card className="shadow-lg h-[60vh] lg:h-full">
+        <Card className="h-[60vh] shadow-lg lg:h-full">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <MapPin className="w-5 h-5 text-primary" />
-              KDD Locations
+              <MapPin className="h-5 w-5 text-primary" />
+              Ubicaciones KDD {/* Spanish translation */}
             </CardTitle>
           </CardHeader>
           <CardContent className="h-[calc(100%-4rem)] p-0">
             {loading ? (
-              <div className="flex items-center justify-center h-full">
-                <p className="text-muted-foreground">Loading Map...</p>
+              <div className="flex h-full items-center justify-center">
+                <p className="text-muted-foreground">Cargando Mapa...</p> {/* Spanish translation */}
               </div>
             ) : (
-               // Pass KDD locations (Places) to the MapComponent
               <MapComponent locations={kdds} />
             )}
           </CardContent>
@@ -73,23 +70,23 @@ export default function MapPage() {
 
       {/* List Section */}
       <div className="lg:w-1/3">
-        <Card className="shadow-lg h-full">
+        <Card className="h-full shadow-lg">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <List className="w-5 h-5 text-primary" />
-              Upcoming Meetups
+              <List className="h-5 w-5 text-primary" />
+              Próximos Encuentros {/* Spanish translation */}
             </CardTitle>
           </CardHeader>
           <CardContent>
             {loading ? (
-              <p className="text-muted-foreground">Loading meetups...</p>
+              <p className="text-muted-foreground">Cargando encuentros...</p> {/* Spanish translation */}
             ) : kdds.length > 0 ? (
               <ul className="space-y-4">
                 {kdds.map((kdd) => (
                   <li key={kdd.name} className="border-b pb-3 last:border-b-0">
                     <h3 className="font-semibold text-foreground">{kdd.name}</h3>
                     <p className="text-sm text-muted-foreground">{kdd.description}</p>
-                    <div className="flex items-center justify-between mt-1 text-xs">
+                    <div className="mt-1 flex items-center justify-between text-xs">
                       <span className="text-accent">{kdd.time}</span>
                       <span className="text-muted-foreground">
                         ({kdd.location.lat.toFixed(4)}, {kdd.location.lng.toFixed(4)})
@@ -99,7 +96,7 @@ export default function MapPage() {
                 ))}
               </ul>
             ) : (
-              <p className="text-muted-foreground">No upcoming KDDs found.</p>
+              <p className="text-muted-foreground">No se encontraron próximos KDDs.</p> {/* Spanish translation */}
             )}
           </CardContent>
         </Card>

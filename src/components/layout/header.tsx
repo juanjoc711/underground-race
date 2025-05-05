@@ -16,8 +16,8 @@ const Logo = () => (
 
 export default function Header() {
   const navItems = [
-    { href: '/', label: 'Gallery', icon: Camera },
-    { href: '/map', label: 'KDD Map', icon: Map },
+    { href: '/', label: 'Galería', icon: Camera }, // Traducción
+    { href: '/map', label: 'Mapa KDD', icon: Map }, // Traducción
     { href: '/social', label: 'Social', icon: Users },
     // Add more links as needed based on website structure (Noticias, Equipo, etc.)
   ];
@@ -52,7 +52,7 @@ export default function Header() {
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon">
                 <Menu className="h-6 w-6" />
-                <span className="sr-only">Toggle Menu</span>
+                <span className="sr-only">Abrir Menú</span> {/* Traducción */}
               </Button>
             </SheetTrigger>
             <SheetContent side="right" className="w-[300px] sm:w-[400px]">

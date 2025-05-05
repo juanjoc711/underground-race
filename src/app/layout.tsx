@@ -17,8 +17,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Underground Rides',
-  description: 'Community for underground car enthusiasts',
+  title: 'Underground Rides', // Manteniendo el nombre principal
+  description: 'Comunidad para entusiastas de coches underground', // Traducción
 };
 
 export default function RootLayout({
@@ -27,7 +27,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="es" className="dark"> {/* Cambiado lang a "es" */}
       <body
         className={cn(
           'min-h-screen bg-background font-sans antialiased',
