@@ -45,6 +45,7 @@ export default function MapPage() {
     fetchKdds();
   }, []); // Empty dependency array ensures this runs only once on mount
 
+  // Added parentheses around the returned JSX to ensure correct parsing.
   return (
     <div className="container mx-auto flex flex-col gap-8 px-4 py-8 md:px-6 lg:flex-row lg:px-8">
       {/* Map Section */}
