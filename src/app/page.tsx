@@ -3,17 +3,20 @@ import PhotoUpload from '@/components/features/photo-upload';
 import { Separator } from '@/components/ui/separator';
 
 export default function Home() {
-  // Mock data for photos - replace with actual data fetching
+  // Updated example photos for the gallery
   const photos = [
-    { id: '1', url: 'https://picsum.photos/seed/car1/400/300', alt: 'Sleek sports car at night', dataAiHint: 'sports car night' },
-    { id: '2', url: 'https://picsum.photos/seed/carmeet1/400/300', alt: 'Car meetup gathering under lights', dataAiHint: 'car meet night lights' },
-    { id: '3', url: 'https://picsum.photos/seed/tunedcar/400/300', alt: 'Tuned car showing modifications', dataAiHint: 'tuned car modification' },
-    { id: '4', url: 'https://picsum.photos/seed/racecar1/400/300', alt: 'Car drifting on a track', dataAiHint: 'car drift race track' },
-    { id: '5', url: 'https://picsum.photos/seed/carinterior/400/300', alt: 'Custom car interior view', dataAiHint: 'car interior custom' },
-    { id: '6', url: 'https://picsum.photos/seed/classiccar/400/300', alt: 'Restored classic car gleaming', dataAiHint: 'classic car restored' },
-     { id: '7', url: 'https://picsum.photos/seed/car2/400/300', alt: 'Another sleek sports car at night', dataAiHint: 'sports car city night' },
-    { id: '8', url: 'https://picsum.photos/seed/carmeet2/400/300', alt: 'Another car meetup gathering under lights', dataAiHint: 'car show outdoor' },
-    { id: '9', url: 'https://picsum.photos/seed/tunedcar2/400/300', alt: 'Another tuned car showing modifications', dataAiHint: 'modified car engine' },
+    { id: '1', url: 'https://picsum.photos/seed/jdm1/600/400', alt: 'Modified JDM car drifting', dataAiHint: 'modified jdm drift' },
+    { id: '2', url: 'https://picsum.photos/seed/musclecar1/600/400', alt: 'Classic American muscle car burnout', dataAiHint: 'classic muscle car burnout' },
+    { id: '3', url: 'https://picsum.photos/seed/eurotuner/600/400', alt: 'Lowered European tuner car', dataAiHint: 'lowered european tuner' },
+    { id: '4', url: 'https://picsum.photos/seed/nightmeet/600/400', alt: 'Cars gathered at a night meet', dataAiHint: 'car meet night parking lot' },
+    { id: '5', url: 'https://picsum.photos/seed/supercar1/600/400', alt: 'Exotic supercar parked on street', dataAiHint: 'exotic supercar street' },
+    { id: '6', url: 'https://picsum.photos/seed/offroad1/600/400', alt: 'Modified off-road truck on trail', dataAiHint: 'modified offroad truck trail' },
+    { id: '7', url: 'https://picsum.photos/seed/enginebay/600/400', alt: 'Detailed engine bay modification', dataAiHint: 'car engine bay modified' },
+    { id: '8', url: 'https://picsum.photos/seed/stancecar/600/400', alt: 'Car with aggressive stance fitment', dataAiHint: 'stance car wheels' },
+    { id: '9', url: 'https://picsum.photos/seed/garagebuild/600/400', alt: 'Project car being built in a garage', dataAiHint: 'project car garage build' },
+    { id: '10', url: 'https://picsum.photos/seed/trackday/600/400', alt: 'Sports car on a race track', dataAiHint: 'sports car race track day' },
+    { id: '11', url: 'https://picsum.photos/seed/vintagecar/600/400', alt: 'Restored vintage car show', dataAiHint: 'vintage car show restored' },
+    { id: '12', url: 'https://picsum.photos/seed/driftmissile/600/400', alt: 'Beaten up drift car in action', dataAiHint: 'drift missile car action' },
   ];
 
   return (
