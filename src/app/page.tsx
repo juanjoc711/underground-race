@@ -45,6 +45,7 @@ export default async function Home() {
     { id: 'ex3', url: 'https://picsum.photos/seed/red-camaro-zl1/800/600', alt: 'Red Chevrolet Camaro ZL1 sports car', dataAiHint: 'red chevrolet camaro zl1', uploadedAt: new Date().toISOString() },
     { id: 'ex4', url: 'https://picsum.photos/seed/lowered-euro-tuner/800/600', alt: 'Lowered European tuner car', dataAiHint: 'lowered european tuner car meet', uploadedAt: new Date().toISOString() },
     { id: 'ex5', url: 'https://picsum.photos/seed/night-car-meet/800/600', alt: 'Cars gathered at a night meet', dataAiHint: 'car meet night parking lot lights', uploadedAt: new Date().toISOString() },
+    { id: 'ex6', url: 'https://picsum.photos/seed/black-porsche-911/800/600', alt: 'Black Porsche 911 Turbo', dataAiHint: 'black porsche 911 turbo classic', uploadedAt: new Date().toISOString() },
   ];
 
   // Combine fetched photos with examples if fetched list is empty, otherwise just show fetched photos
@@ -56,7 +57,7 @@ export default async function Home() {
       <h1 className="text-3xl font-bold mb-6 text-center text-primary">Underground Rides Gallery</h1>
       <p className="text-center mb-8 text-muted-foreground">Share your ride, discover the scene.</p>
 
-      {/* PhotoUpload component - Needs React import */}
+      {/* PhotoUpload component */}
       <PhotoUpload />
 
       <Separator className="my-12" />
