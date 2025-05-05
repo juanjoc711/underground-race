@@ -45,7 +45,7 @@ export default function MapPage() {
     fetchKdds();
   }, []); // Empty dependency array ensures this runs only once on mount
 
-  // Added parentheses around the returned JSX to ensure correct parsing.
+  // Ensure the return statement correctly wraps the JSX
   return (
     <div className="container mx-auto flex flex-col gap-8 px-4 py-8 md:px-6 lg:flex-row lg:px-8">
       {/* Map Section */}
@@ -54,13 +54,13 @@ export default function MapPage() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <MapPin className="h-5 w-5 text-primary" />
-              Ubicaciones KDD {/* Spanish translation */}
+              Ubicaciones KDD
             </CardTitle>
           </CardHeader>
           <CardContent className="h-[calc(100%-4rem)] p-0">
             {loading ? (
               <div className="flex h-full items-center justify-center">
-                <p className="text-muted-foreground">Cargando Mapa...</p> {/* Spanish translation */}
+                <p className="text-muted-foreground">Cargando Mapa...</p>
               </div>
             ) : (
               <MapComponent locations={kdds} />
@@ -75,12 +75,12 @@ export default function MapPage() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <List className="h-5 w-5 text-primary" />
-              Próximos Encuentros {/* Spanish translation */}
+              Próximos Encuentros
             </CardTitle>
           </CardHeader>
           <CardContent>
             {loading ? (
-              <p className="text-muted-foreground">Cargando encuentros...</p> {/* Spanish translation */}
+              <p className="text-muted-foreground">Cargando encuentros...</p>
             ) : kdds.length > 0 ? (
               <ul className="space-y-4">
                 {kdds.map((kdd) => (
@@ -97,7 +97,7 @@ export default function MapPage() {
                 ))}
               </ul>
             ) : (
-              <p className="text-muted-foreground">No se encontraron próximos KDDs.</p> {/* Spanish translation */}
+              <p className="text-muted-foreground">No se encontraron próximos KDDs.</p>
             )}
           </CardContent>
         </Card>
