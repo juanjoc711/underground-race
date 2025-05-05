@@ -1,12 +1,13 @@
 // src/components/features/photo-upload.tsx
 "use client";
 
-import { useState } from 'react';
+import * as React from 'react'; // Added React import
+import { useState, useRef } from 'react'; // Combined React hooks
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { v4 as uuidv4 } from 'uuid'; // Import uuid
-import { useRouter } from 'next/navigation'; // Import useRouter
+import { v4 as uuidv4 } from 'uuid'; // Keep uuid import
+import { useRouter } from 'next/navigation'; // Keep useRouter
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -32,7 +33,7 @@ const formSchema = z.object({
 
 type PhotoUploadFormValues = z.infer<typeof formSchema>;
 
-// Helper function to read file as Data URL
+// Helper function to read file as Data URL (still needed for preview)
 const readFileAsDataURL = (file: File): Promise<string> => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -48,6 +49,9 @@ export default function PhotoUpload() {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [preview, setPreview] = useState<string | null>(null);
+  // Ref for file input to allow clearing
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
 
   const form = useForm<PhotoUploadFormValues>({
     resolver: zodResolver(formSchema),
@@ -58,13 +62,17 @@ export default function PhotoUpload() {
 
   const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    if (file && ACCEPTED_IMAGE_TYPES.includes(file.type)) {
+    if (file && ACCEPTED_IMAGE_TYPES.includes(file.type) && file.size <= MAX_FILE_SIZE) {
       try {
         const dataUrl = await readFileAsDataURL(file);
         setPreview(dataUrl);
+         // Manually set value for RHF and trigger validation
+        form.setValue('image', event.target.files as FileList, { shouldValidate: true });
       } catch (error) {
         console.error("Error reading file:", error);
         setPreview(null);
+        // Clear RHF value if preview fails
+        form.setValue('image', new DataTransfer().files, { shouldValidate: true });
         toast({
           variant: "destructive",
           title: "Error",
@@ -73,10 +81,11 @@ export default function PhotoUpload() {
       }
     } else {
       setPreview(null);
+       // Clear RHF value if file is invalid
+      form.setValue('image', new DataTransfer().files, { shouldValidate: true });
+      // Trigger validation manually if file is invalid or cleared
+      form.trigger('image');
     }
-     // Manually trigger validation for the file input
-    form.setValue('image', event.target.files as FileList);
-    form.trigger('image');
   };
 
   const onSubmit = async (values: PhotoUploadFormValues) => {
@@ -85,74 +94,65 @@ export default function PhotoUpload() {
     const file = values.image[0];
     const caption = values.caption;
 
-    if (file) {
-      const fileName = `${uuidv4()}.${file.name.split('.').pop()}`; // Generate unique filename with original extension
-      const filePath = `/uploads/${fileName}`; // Path within public folder
-
-      // --- Simulation of Server-Side File Saving ---
-      // In a real app, you would send the file (likely via FormData) to an API route or Server Action.
-      // The server would then save the file to the `public/uploads` directory.
-      // This simulation just logs the intended action.
-      console.log(`Simulating save: ${fileName} to public/uploads`);
-      console.log(`Caption: ${caption}`);
-      // Example using fetch to a hypothetical API endpoint:
-      /*
-      const formData = new FormData();
-      formData.append('image', file, fileName);
-      if (caption) {
-        formData.append('caption', caption);
-      }
-      try {
-        const response = await fetch('/api/upload', { // Your API endpoint
-          method: 'POST',
-          body: formData,
-        });
-        if (!response.ok) {
-          throw new Error('Upload failed');
-        }
-        const result = await response.json();
-        console.log('Upload successful:', result);
-      } catch (error) {
-        console.error('Upload error:', error);
-        toast({
-          variant: 'destructive',
-          title: 'Upload Failed',
-          description: 'Could not save the photo.',
-        });
-        setIsSubmitting(false);
-        return; // Stop execution if upload fails
-      }
-      */
-      // Simulate network delay for the "upload"
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      // --- End Simulation ---
-
-
-      toast({
-        title: "Photo Uploaded!",
-        description: "Your ride is now in the gallery (simulated).",
-      });
-
-      form.reset(); // Reset form fields
-      setPreview(null); // Clear preview
-       // Attempt to clear file input (might not work consistently across browsers)
-      const fileInput = document.getElementById('image-upload') as HTMLInputElement;
-      if (fileInput) {
-          fileInput.value = '';
-      }
-
-      router.refresh(); // Refresh the page to potentially show the new image (if Home fetches dynamically)
-
-    } else {
+    if (!file) {
        toast({
          variant: 'destructive',
          title: 'No File Selected',
          description: 'Please select an image to upload.',
        });
+       setIsSubmitting(false);
+       return;
     }
 
+    // Create FormData to send file and caption
+    const formData = new FormData();
+    formData.append('image', file);
+    if (caption) {
+      formData.append('caption', caption);
+    }
 
-    setIsSubmitting(false);
+    try {
+      // Send data to the API route
+      const response = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+        // No 'Content-Type' header needed, browser sets it for FormData
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Upload failed');
+      }
+
+      const result = await response.json();
+      console.log('Upload successful:', result);
+
+      toast({
+        title: "Photo Uploaded!",
+        description: "Your ride has been added to the gallery.",
+      });
+
+      form.reset(); // Reset form fields
+      setPreview(null); // Clear preview
+
+      // Attempt to clear file input more reliably
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+
+
+      router.refresh(); // Refresh the page to show the new image
+
+    } catch (error: any) {
+      console.error('Upload error:', error);
+      toast({
+        variant: 'destructive',
+        title: 'Upload Failed',
+        description: error.message || 'Could not save the photo. Please try again.',
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -169,29 +169,30 @@ export default function PhotoUpload() {
             <FormField
               control={form.control}
               name="image"
-              render={({ field }) => (
+              // We use render prop but don't spread field directly onto Input type="file"
+              render={({ fieldState }) => ( // Use fieldState for error access
                 <FormItem>
                   <FormLabel htmlFor="image-upload">Photo</FormLabel>
                   <FormControl>
-                    {/* Removed the invalid wrapping Fragment */}
-                    <Input
-                      id="image-upload" // Keep id here for the label association
-                      type="file"
-                      accept={ACCEPTED_IMAGE_TYPES.join(',')} // Use defined accepted types
-                      className="file:text-foreground" // Style the file input button text
-                      // We need onChange to handle preview and setValue, but RHF handles the value via setValue
-                      onChange={handleFileChange}
-                      // RHF doesn't directly work well with file inputs, so we use onChange and manually set value.
-                      // We omit field.onChange, field.value, field.ref from the input itself.
-                    />
+                    {/* Assign the ref here */}
+                     <Input
+                       id="image-upload"
+                       ref={fileInputRef} // Assign ref
+                       type="file"
+                       accept={ACCEPTED_IMAGE_TYPES.join(',')}
+                       className="file:text-foreground"
+                       onChange={handleFileChange} // Use our custom handler
+                       // Omit RHF's value, onChange, ref props here
+                     />
                   </FormControl>
                    {/* Render preview outside FormControl but within FormItem */}
-                  {preview && (
+                   {preview && (
                     <div className="mt-4 w-full aspect-video relative rounded-md overflow-hidden border">
                        <img src={preview} alt="Selected preview" className="object-contain w-full h-full" />
                      </div>
                    )}
-                  <FormMessage />
+                  {/* Display error message from fieldState */}
+                  <FormMessage>{fieldState.error?.message}</FormMessage>
                 </FormItem>
               )}
             />
@@ -213,7 +214,7 @@ export default function PhotoUpload() {
             />
           </CardContent>
           <CardFooter>
-            <Button type="submit" disabled={isSubmitting} className="w-full">
+            <Button type="submit" disabled={isSubmitting || !form.formState.isValid} className="w-full">
               {isSubmitting ? 'Uploading...' : 'Upload Photo'}
             </Button>
           </CardFooter>
