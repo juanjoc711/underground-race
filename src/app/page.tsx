@@ -44,6 +44,7 @@ export default async function Home() {
     { id: 'ex2', url: 'https://picsum.photos/seed/musclecar1/600/400', alt: 'Classic American muscle car burnout', dataAiHint: 'classic muscle car burnout', uploadedAt: new Date().toISOString() },
     { id: 'ex3', url: 'https://picsum.photos/seed/eurotuner/600/400', alt: 'Lowered European tuner car', dataAiHint: 'lowered european tuner', uploadedAt: new Date().toISOString() },
     { id: 'ex4', url: 'https://picsum.photos/seed/nightmeet/600/400', alt: 'Cars gathered at a night meet', dataAiHint: 'car meet night parking lot', uploadedAt: new Date().toISOString() },
+    { id: 'ex5', url: 'https://picsum.photos/seed/blue-audi-tt/600/400', alt: 'Blue Audi TT coupe rear view', dataAiHint: 'blue audi tt coupe', uploadedAt: new Date().toISOString() },
   ];
 
   // Combine fetched photos with examples if fetched list is empty, otherwise just show fetched photos
