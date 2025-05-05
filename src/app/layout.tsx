@@ -28,6 +28,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" className="dark">
+      {/* No whitespace or comments should be directly here */}
       <body
         className={cn(
           'min-h-screen bg-background font-sans antialiased',
