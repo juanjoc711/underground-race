@@ -39,7 +39,8 @@ export default async function Home() {
 
   // Keep some default examples if no photos are uploaded yet
   const examplePhotos: PhotoMetadata[] = [
-    { id: 'ex1', url: 'https://picsum.photos/seed/jdm1/600/400', alt: 'Modified JDM car drifting', dataAiHint: 'modified jdm drift', uploadedAt: new Date().toISOString() },
+    // Use the provided blue Alpine car image as the main example
+    { id: 'ex1', url: 'https://picsum.photos/seed/alpine-blue-car/800/600', alt: 'Blue Alpine sports car', dataAiHint: 'blue alpine sports car', uploadedAt: new Date().toISOString() },
     { id: 'ex2', url: 'https://picsum.photos/seed/musclecar1/600/400', alt: 'Classic American muscle car burnout', dataAiHint: 'classic muscle car burnout', uploadedAt: new Date().toISOString() },
     { id: 'ex3', url: 'https://picsum.photos/seed/eurotuner/600/400', alt: 'Lowered European tuner car', dataAiHint: 'lowered european tuner', uploadedAt: new Date().toISOString() },
     { id: 'ex4', url: 'https://picsum.photos/seed/nightmeet/600/400', alt: 'Cars gathered at a night meet', dataAiHint: 'car meet night parking lot', uploadedAt: new Date().toISOString() },
