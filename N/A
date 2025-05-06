@@ -1,0 +1,27 @@
+Entendido. Quieres proteger tu clave API de Google Maps para que no esté directamente expuesta en el código del navegador.
+
+Sin embargo, hay un detalle importante con la librería que estamos usando (`@vis.gl/react-google-maps`). Esta librería **necesita** la clave API en el lado del cliente (en el navegador) para poder cargar los mapas de Google correctamente.
+
+Crear una ruta API en el backend que simplemente devuelva la clave al frontend no añade mucha seguridad real, porque la clave seguiría llegando al navegador y alguien podría inspeccionar el tráfico de red para encontrarla.
+
+**La forma estándar y recomendada de proteger una clave API de Google Maps cuando se usa con librerías del lado del cliente como esta es mediante las Restricciones HTTP (HTTP Referrers) en la Consola de Google Cloud.**
+
+Esto asegura que tu clave API **solo funcione** cuando las solicitudes provengan de los dominios específicos de tu sitio web (tu dominio de Vercel y `localhost` para desarrollo). Si alguien copia tu clave e intenta usarla en su propio sitio web, Google la bloqueará.
+
+**Por lo tanto, no realizaré cambios en el código ahora mismo.** La configuración actual que usa `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` es la correcta para esta librería.
+
+**Lo que debes hacer (muy importante):**
+
+1.  **Ve a la Consola de Google Cloud:** [https://console.cloud.google.com/](https://console.cloud.google.com/)
+2.  **Navega a APIs y Servicios > Credenciales.**
+3.  **Selecciona tu clave API** (la que termina en `...O8t8`).
+4.  **Busca la sección "Restricciones de aplicación"** (Application restrictions).
+5.  **Selecciona "Referentes HTTP (sitios web)"** (HTTP referrers (web sites)).
+6.  **En "Restricciones de sitios web" (Website restrictions), haz clic en "AÑADIR UN ELEMENTO" (ADD AN ITEM):**
+    *   Añade tu dominio de Vercel (ejemplo: `tu-proyecto.vercel.app`).
+    *   Añade tu dominio de Vercel con `www` si aplica (ejemplo: `www.tu-proyecto.vercel.app`).
+    *   Añade cualquier otro dominio personalizado que uses.
+    *   **Añade `localhost:9002`** (o el puerto que uses) para que funcione durante el desarrollo local. Puedes añadir `localhost` sin puerto también por si acaso. Es importante poner el puerto si usas uno específico.
+7.  **Guarda los cambios.**
+
+Al configurar estas restricciones, te aseguras de que tu clave API solo pueda ser usada desde tu sitio web autorizado, lo cual es la medida de seguridad estándar y efectiva para este escenario.
