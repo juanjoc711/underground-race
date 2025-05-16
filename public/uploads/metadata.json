@@ -33,5 +33,42 @@
     "alt": "Soy pepe",
     "caption": "Soy pepe",
     "uploadedAt": "2025-05-16T12:46:24.311Z"
+  },
+  {
+    "id": "16c603ce-a414-4144-8509-da50d5139ad2",
+    "url": "/uploads/8db9d495-3a12-4f35-b91f-e26ead94e9b4.png",
+    "alt": "Nueva pruebita",
+    "caption": "Nueva pruebita",
+    "uploadedAt": "2025-05-16T12:56:04.103Z"
+  },
+  {
+    "id": "6f794969-8c32-4989-8061-7c4c93f17820",
+    "url": "/uploads/9cb49f4e-fd4f-428f-97f5-afcaf8b6ae2a.png",
+    "alt": "Pruebita 2",
+    "caption": "Pruebita 2",
+    "uploadedAt": "2025-05-16T12:57:40.041Z"
+  },
+  {
+    "id": "a9b4ccaf-e49d-4fd5-8f1c-d8581c3eccf6",
+    "url": "/uploads/48001da1-df49-4823-9d00-543641bc21c6.png",
+    "alt": "Foto evento....",
+    "caption": "Foto evento....",
+    "uploadedAt": "2025-05-16T12:58:37.919Z"
+  },
+  {
+    "id": "dec06740-e76f-4275-a54f-23fc36f1a6a6",
+    "url": "/uploads/efed4860-a7ff-4026-b7f0-daafbf5b33bf.png",
+    "alt": "a ver",
+    "caption": "a ver",
+    "uploadedAt": "2025-05-16T13:15:35.641Z",
+    "uploadedBy": "Anónimo"
+  },
+  {
+    "id": "fdd84c5b-4ad0-4f7b-b4f0-f63bdeaaa0cb",
+    "url": "/uploads/e0ac4999-4151-4f9d-8c2b-22586d195eaa.png",
+    "alt": "nueva prueba",
+    "caption": "nueva prueba",
+    "uploadedAt": "2025-05-16T13:15:58.299Z",
+    "uploadedBy": "Anónimo"
   }
 ]
