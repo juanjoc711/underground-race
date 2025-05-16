@@ -1,34 +1,35 @@
+'use client';
+
 import Link from 'next/link';
 import { Car, Map, Camera, Users, Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import Image from 'next/image'; // Import next/image
+import Image from 'next/image';
+import { useAuth } from '@/context/AuthContext';
+import { LogoutButton } from '@/components/auth/LogoutButton';
 
-// Placeholder Logo SVG - Replace with actual logo if available
+// Placeholder Logo SVG
 const Logo = () => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 40" width="120" height="40" fill="currentColor" className="text-primary mr-4">
-    {/* Simplified representation of the logo from the website */}
     <path d="M0 20 L15 5 L30 20 L15 35 Z" />
     <text x="35" y="28" fontFamily="Arial, sans-serif" fontSize="24" fontWeight="bold">UR</text>
   </svg>
 );
 
-
 export default function Header() {
+  const { user } = useAuth(); // ✅ Contexto de autenticación
+
   const navItems = [
-    { href: '/', label: 'Galería', icon: Camera }, // Traducción
-    { href: '/map', label: 'Mapa KDD', icon: Map }, // Traducción
+    { href: '/', label: 'Galería', icon: Camera },
+    { href: '/map', label: 'Mapa KDD', icon: Map },
     { href: '/social', label: 'Social', icon: Users },
-    // Add more links as needed based on website structure (Noticias, Equipo, etc.)
   ];
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between">
         <Link href="/" className="flex items-center">
-          {/* Use the actual logo image if available, otherwise use SVG */}
-           {/*<Image src="/logo.png" alt="Underground Race Logo" width={120} height={40} className="mr-4" />*/}
-           <Logo /> {/* Remove this if using Image */}
+          <Logo />
           <span className="hidden font-bold sm:inline-block text-foreground">Underground Rides</span>
         </Link>
 
@@ -44,6 +45,7 @@ export default function Header() {
               {item.label}
             </Link>
           ))}
+          {user && <LogoutButton />} {/* ✅ Logout para escritorio */}
         </nav>
 
         {/* Mobile Navigation */}
@@ -52,7 +54,7 @@ export default function Header() {
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon">
                 <Menu className="h-6 w-6" />
-                <span className="sr-only">Abrir Menú</span> {/* Traducción */}
+                <span className="sr-only">Abrir Menú</span>
               </Button>
             </SheetTrigger>
             <SheetContent side="right" className="w-[300px] sm:w-[400px]">
@@ -71,6 +73,7 @@ export default function Header() {
                     {item.label}
                   </Link>
                 ))}
+                {user && <LogoutButton />} {/* ✅ Logout para móvil */}
               </nav>
             </SheetContent>
           </Sheet>

@@ -4,6 +4,7 @@ import path from 'path';
 import PhotoGallery from '@/components/features/photo-gallery';
 import PhotoUpload from '@/components/features/photo-upload';
 import { Separator } from '@/components/ui/separator';
+import AuthGate from '@/components/auth/AuthGate'; // ✅ Nuevo import
 
 // Ensure dynamic rendering and prevent data caching during development/SSR
 export const revalidate = 0;
@@ -41,11 +42,9 @@ async function getPhotos(): Promise<PhotoMetadata[]> {
   }
 }
 
-
 export default async function Home() {
   const photos = await getPhotos();
 
-  // Example photos with actual uploads
   const examplePhotos: PhotoMetadata[] = [
     {
       id: '1638e2d5-2930-4e5b-8276-a9456c7609d4',
@@ -63,7 +62,7 @@ export default async function Home() {
       uploadedAt: '2025-05-05T21:46:41.343Z',
       dataAiHint: 'black porsche 911 turbo classic',
     },
-      {
+    {
       id: '3a5c73b7-9d77-48e4-8409-cceb1708c386',
       url: '/uploads/d5e9fdc1-afd7-4acd-a49b-d812332fcb15.jpg',
       alt: 'BMW M3 Azul',
@@ -81,21 +80,21 @@ export default async function Home() {
     },
   ];
 
-
-   const displayPhotos = photos.length > 0 ? photos : examplePhotos;
-   console.log(`Mostrando ${displayPhotos.length} fotos. ${photos.length > 0 ? 'Usando fotos subidas.' : 'Usando fotos de ejemplo.'}`);
-
+  const displayPhotos = photos.length > 0 ? photos : examplePhotos;
+  console.log(`Mostrando ${displayPhotos.length} fotos. ${photos.length > 0 ? 'Usando fotos subidas.' : 'Usando fotos de ejemplo.'}`);
 
   return (
-    <div className="container mx-auto py-8 px-4 md:px-6 lg:px-8">
-      <h1 className="text-3xl font-bold mb-6 text-center text-primary">Galería Underground Rides</h1>
-      <p className="text-center mb-8 text-muted-foreground">Comparte tu coche, descubre la escena.</p>
+    <AuthGate> {/* ✅ Protegido por autenticación */}
+      <div className="container mx-auto py-8 px-4 md:px-6 lg:px-8">
+        <h1 className="text-3xl font-bold mb-6 text-center text-primary">Galería Underground Rides</h1>
+        <p className="text-center mb-8 text-muted-foreground">Comparte tu coche, descubre la escena.</p>
 
-      <PhotoUpload />
+        <PhotoUpload />
 
-      <Separator className="my-12" />
+        <Separator className="my-12" />
 
-      <PhotoGallery photos={displayPhotos} />
-    </div>
+        <PhotoGallery photos={displayPhotos} />
+      </div>
+    </AuthGate>
   );
 }
