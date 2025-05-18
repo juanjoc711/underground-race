@@ -97,15 +97,24 @@ export default function PhotoUpload() {
       return;
     }
 
+    console.log('displayName:', user?.displayName);
+    console.log('email:', user?.email);
+
+
     const formData = new FormData();
     formData.append('image', file);
     if (caption) {
       formData.append('caption', caption);
     }
 
-    if (user?.email) {
-      formData.append('uploadedBy', user.email); // 👈 se añade el email del usuario autenticado
+    if (user?.displayName) {
+      formData.append('uploadedBy', user.displayName);
+    } else if (user?.email) {
+      formData.append('uploadedBy', user.email);
+    } else {
+      formData.append('uploadedBy', 'Anónimo');
     }
+
 
     try {
       const response = await fetch('/api/upload', {

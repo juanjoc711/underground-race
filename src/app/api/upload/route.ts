@@ -103,14 +103,14 @@ export async function POST(request: Request) {
     console.log("Reading existing metadata...");
     const existingMetadata = await readMetadata();
 
-    // Aquí usamos 'Anónimo' porque no tenemos usuario autenticado
+    const uploadedBy = formData.get('uploadedBy') as string | null || 'Anónimo';
     const newMetadataEntry = {
       id: uuidv4(),
       url: publicPath,
       alt: caption || `Uploaded image ${uniqueFilename}`,
       caption: caption || '',
       uploadedAt: new Date().toISOString(),
-      uploadedBy: 'Anónimo',
+      uploadedBy, // Aquí ya usas el valor recibido o 'Anónimo' si no viene
     };
 
     console.log("New metadata entry created:", newMetadataEntry);

@@ -70,5 +70,53 @@
     "caption": "nueva prueba",
     "uploadedAt": "2025-05-16T13:15:58.299Z",
     "uploadedBy": "Anónimo"
+  },
+  {
+    "id": "05b44819-449e-41ac-8961-faa3a477443e",
+    "url": "/uploads/af2655c7-bf41-4583-ad28-cdad102119d6.webp",
+    "alt": "Lotus",
+    "caption": "Lotus",
+    "uploadedAt": "2025-05-18T09:42:14.652Z",
+    "uploadedBy": "barbaragd02@gmail.com"
+  },
+  {
+    "id": "8909fd23-2b54-43c0-965d-94203251898d",
+    "url": "/uploads/af8ba7f4-0260-4973-a061-a420c735e3bc.webp",
+    "alt": "bugatti",
+    "caption": "bugatti",
+    "uploadedAt": "2025-05-18T10:06:05.375Z",
+    "uploadedBy": "barbaragd02@gmail.com"
+  },
+  {
+    "id": "a1696f68-9937-4c24-93dc-03225baf03ae",
+    "url": "/uploads/4a98c7fa-3ed1-4680-b3c9-3e4893a86fb1.webp",
+    "alt": "Bugatti",
+    "caption": "Bugatti",
+    "uploadedAt": "2025-05-18T10:12:31.199Z",
+    "uploadedBy": "barbaragd02@gmail.com"
+  },
+  {
+    "id": "829e0c13-9a82-4c70-aa73-9a37d0a450e9",
+    "url": "/uploads/7b80847c-3b8a-4023-8a2e-544bf57a2146.jpg",
+    "alt": "Prueba",
+    "caption": "Prueba",
+    "uploadedAt": "2025-05-18T10:15:55.050Z",
+    "uploadedBy": "barbaragd02@gmail.com"
+  },
+  {
+    "id": "58f5c83e-8f8c-45ba-981d-5707b59ff7f2",
+    "url": "/uploads/fcefbe14-79bb-4cfa-beda-0bae63d9a214.jpg",
+    "alt": "coche",
+    "caption": "coche",
+    "uploadedAt": "2025-05-18T10:19:25.697Z",
+    "uploadedBy": "barbaragd02@gmail.com"
+  },
+  {
+    "id": "5e6c2fa9-6391-43f2-8cd8-b3755e7bd1d9",
+    "url": "/uploads/70ad44da-6ce5-4f25-bb36-3d6245cdf9d0.jpg",
+    "alt": "hola",
+    "caption": "hola",
+    "uploadedAt": "2025-05-18T10:20:17.787Z",
+    "uploadedBy": "Barbara"
   }
 ]
