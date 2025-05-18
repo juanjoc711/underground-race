@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { useState, useEffect } from "react";
 import MapWithSearch from "@/components/features/MapWithSearch";
@@ -6,24 +6,27 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { List, MapPin } from "lucide-react";
 import type { Place } from "@/services/geo";
 
-const mockKdds: (Place & { time: string; description: string })[] = [
+const mockKdds: (Place & { time: string; description: string; link: string })[] = [
   {
-    name: "Encuentro Sardinero Nocturno",
+    name: "Hostal La Biela",
     location: { lat: 43.473, lng: -3.78 },
     time: "Vie 9:00 PM",
-    description: "Reunión semanal en el parking de la playa.",
+    description: "Reunión infromal.",
+    link: "https://maps.app.goo.gl/g5wXmTwvuSpTSiWk7?g_st=com.google.maps.preview.copy"
   },
   {
-    name: "Ruta Costera",
+    name: 'The Bridge Tavern "LA FINCA"',
     location: { lat: 43.465, lng: -3.85 },
     time: "Sáb 3:00 PM",
-    description: "Ruta panorámica por la costa oeste de Santander.",
+    description: "Encuentro en zona industrial.",
+    link: "https://maps.app.goo.gl/fYTK59wjm8AfPWbW8?g_st=com.google.maps.preview.copy"
   },
   {
-    name: "Polígono Candina Meet",
+    name: "Mirador Reocin",
     location: { lat: 43.45, lng: -3.819 },
     time: "Sáb 10:00 PM",
     description: "Encuentro informal en zona industrial.",
+    link: "https://maps.app.goo.gl/hipWevSKR5AYN6rU9?g_st=com.google.maps.preview.copy"
   },
 ];
 
@@ -77,6 +80,14 @@ export default function MapPage() {
                   <li key={kdd.name} className="border-b pb-3 last:border-b-0">
                     <h3 className="font-semibold text-foreground">{kdd.name}</h3>
                     <p className="text-sm text-muted-foreground">{kdd.description}</p>
+                    <a
+                      href={kdd.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-500 underline text-xs"
+                    >
+                      Ver en Google Maps
+                    </a>
                     <div className="mt-1 flex items-center justify-between text-xs">
                       <span className="text-accent">{kdd.time}</span>
                       <span className="text-muted-foreground">
@@ -95,4 +106,6 @@ export default function MapPage() {
     </div>
   );
 }
+
+
 

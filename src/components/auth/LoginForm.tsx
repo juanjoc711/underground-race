@@ -4,7 +4,11 @@ import { useState } from 'react';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../firebaseConfig';
 
-export default function LoginForm() {
+interface Props {
+  toggleRegister: () => void;
+}
+
+export default function LoginForm({ toggleRegister }: Props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
@@ -23,20 +27,20 @@ export default function LoginForm() {
   };
 
   return (
-    <div className="max-w-sm mx-auto p-4 border rounded shadow">
+    <div className="w-full max-w-sm p-6 bg-white rounded shadow border border-black">
       <input
         type="email"
         placeholder="Email"
         value={email}
         onChange={e => setEmail(e.target.value)}
-        className="w-full mb-3 px-3 py-2 border rounded text-black"
+        className="w-full mb-3 px-3 py-2 border border-black rounded text-black bg-white"
       />
       <input
         type="password"
         placeholder="Password"
         value={password}
         onChange={e => setPassword(e.target.value)}
-        className="w-full mb-3 px-3 py-2 border rounded text-black"
+        className="w-full mb-3 px-3 py-2 border border-black rounded text-black bg-white"
       />
       {error && <p className="mb-3 text-red-600">{error}</p>}
       <button
@@ -49,3 +53,9 @@ export default function LoginForm() {
     </div>
   );
 }
+
+
+
+
+
+

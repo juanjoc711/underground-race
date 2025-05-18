@@ -4,7 +4,11 @@ import { useState } from 'react';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { auth } from '../../firebaseConfig';
 
-export default function RegisterForm() {
+interface Props {
+  toggleRegister: () => void;
+}
+
+export default function RegisterForm({ toggleRegister }: Props) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -24,7 +28,7 @@ export default function RegisterForm() {
     }
 
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      await createUserWithEmailAndPassword(auth, email, password);
 
       if (auth.currentUser) {
         await updateProfile(auth.currentUser, {
@@ -32,7 +36,6 @@ export default function RegisterForm() {
         });
       }
 
-      // Opcional: limpiar formulario o redirigir después del registro
       setName('');
       setEmail('');
       setPassword('');
@@ -43,44 +46,50 @@ export default function RegisterForm() {
   };
 
   return (
-    <div className="flex flex-col max-w-sm mx-auto p-4 border rounded shadow-sm">
-      <input
-        className="mb-3 px-3 py-2 border border-gray-300 rounded text-black"
-        type="text"
-        placeholder="Nombre"
-        value={name}
-        onChange={e => setName(e.target.value)}
-      />
-      <input
-        className="mb-3 px-3 py-2 border border-gray-300 rounded text-black"
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={e => setEmail(e.target.value)}
-      />
-      <input
-        className="mb-3 px-3 py-2 border border-gray-300 rounded text-black"
-        type="password"
-        placeholder="Contraseña"
-        value={password}
-        onChange={e => setPassword(e.target.value)}
-      />
-      <input
-        className="mb-3 px-3 py-2 border border-gray-300 rounded text-black"
-        type="password"
-        placeholder="Confirmar Contraseña"
-        value={confirmPassword}
-        onChange={e => setConfirmPassword(e.target.value)}
-      />
-      {error && <p className="mb-3 text-red-600">{error}</p>}
-      <button
-        onClick={handleRegister}
-        className="bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
-      >
-        Registrarse
-      </button>
+    <div
+      className="max-w-sm w-full p-6 rounded shadow-lg"
+      style={{
+        background: 'linear-gradient(135deg, #0a0f25 0%, #121921 50%, #000000 100%)',
+      }}
+    >
+      <div className="flex flex-col bg-white p-4 rounded shadow-sm border border-black">
+        <input
+          className="mb-3 px-3 py-2 border border-gray-300 rounded text-black"
+          type="text"
+          placeholder="Nombre"
+          value={name}
+          onChange={e => setName(e.target.value)}
+        />
+        <input
+          className="mb-3 px-3 py-2 border border-gray-300 rounded text-black"
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={e => setEmail(e.target.value)}
+        />
+        <input
+          className="mb-3 px-3 py-2 border border-gray-300 rounded text-black"
+          type="password"
+          placeholder="Contraseña"
+          value={password}
+          onChange={e => setPassword(e.target.value)}
+        />
+        <input
+          className="mb-3 px-3 py-2 border border-gray-300 rounded text-black"
+          type="password"
+          placeholder="Confirmar Contraseña"
+          value={confirmPassword}
+          onChange={e => setConfirmPassword(e.target.value)}
+        />
+        {error && <p className="mb-3 text-red-600">{error}</p>}
+        <button
+          onClick={handleRegister}
+          className="bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
+        >
+          Registrarse
+        </button>
+      </div>
     </div>
   );
 }
-
 

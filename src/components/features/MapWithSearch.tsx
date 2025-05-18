@@ -6,17 +6,15 @@ import MapComponent from './map-component';
 import { Place } from '@/services/geo';
 
 interface MapWithSearchProps {
-  initialLocations: (Place & { time: string; description: string })[];
-  onAddLocation: (newLoc: Place & { time: string; description: string }) => void;
+  initialLocations: (Place & { time: string; description: string; link: string })[];
+  onAddLocation: (newLoc: Place & { time: string; description: string; link: string }) => void;
 }
 
 export default function MapWithSearch({
   initialLocations,
   onAddLocation,
 }: MapWithSearchProps) {
-  const [locations, setLocations] = useState<
-    (Place & { time: string; description: string })[]
-  >([]);
+  const [locations, setLocations] = useState<(Place & { time: string; description: string; link: string })[]>([]);
 
   // Estado para la ubicación recién seleccionada en AddressSearch
   const [pendingLocation, setPendingLocation] = useState<{
@@ -25,9 +23,10 @@ export default function MapWithSearch({
     name: string;
   } | null>(null);
 
-  // Campos para la hora y descripción que el usuario pone antes de añadir
+  // Campos para la hora, descripción y link que el usuario pone antes de añadir
   const [time, setTime] = useState('');
   const [description, setDescription] = useState('');
+  const [link, setLink] = useState('');
 
   useEffect(() => {
     setLocations(initialLocations);
@@ -38,17 +37,23 @@ export default function MapWithSearch({
     setPendingLocation({ lat, lng: lon, name });
     setTime('');
     setDescription('');
+    setLink('');
   };
 
   // Cuando el usuario confirma añadir la ubicación con info extra
   const handleAddLocation = () => {
     if (!pendingLocation) return;
+    if (!link.trim()) {
+      alert('Por favor, añade un link válido');
+      return;
+    }
 
     const newLocation = {
       name: pendingLocation.name,
       location: { lat: pendingLocation.lat, lng: pendingLocation.lng },
       time: time || 'Hora no definida',
       description: description || 'Sin descripción',
+      link: link.trim(),
     };
 
     setLocations((prev) => [...prev, newLocation]);
@@ -58,6 +63,7 @@ export default function MapWithSearch({
     setPendingLocation(null);
     setTime('');
     setDescription('');
+    setLink('');
   };
 
   return (
@@ -87,6 +93,15 @@ export default function MapWithSearch({
             onChange={(e) => setDescription(e.target.value)}
           />
 
+          <label className="text-sm font-medium">Link de la ubicación</label>
+          <input
+            type="url"
+            className="rounded border px-3 py-1 text-black bg-white"
+            placeholder="Ej: https://maps.app.goo.gl/abc123"
+            value={link}
+            onChange={(e) => setLink(e.target.value)}
+          />
+
           <button
             onClick={handleAddLocation}
             className="mt-3 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
@@ -102,6 +117,7 @@ export default function MapWithSearch({
     </div>
   );
 }
+
 
 
 
