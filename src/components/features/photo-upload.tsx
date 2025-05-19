@@ -15,7 +15,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/componen
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Upload } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { useAuth } from '@/context/AuthContext'; // 👈 añadido
+import { useAuth } from '@/context/AuthContext';
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
@@ -45,9 +45,10 @@ const readFileAsDataURL = (file: File): Promise<string> => {
 export default function PhotoUpload() {
   const router = useRouter();
   const { toast } = useToast();
-  const { user } = useAuth(); // 👈 obtenido el usuario
+  const { user } = useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [preview, setPreview] = useState<string | null>(null);
+  const [uploadedUrl, setUploadedUrl] = useState<string | null>(null); // 🆕
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const form = useForm<PhotoUploadFormValues>({
@@ -97,10 +98,6 @@ export default function PhotoUpload() {
       return;
     }
 
-    console.log('displayName:', user?.displayName);
-    console.log('email:', user?.email);
-
-
     const formData = new FormData();
     formData.append('image', file);
     if (caption) {
@@ -114,7 +111,6 @@ export default function PhotoUpload() {
     } else {
       formData.append('uploadedBy', 'Anónimo');
     }
-
 
     try {
       const response = await fetch('/api/upload', {
@@ -137,13 +133,13 @@ export default function PhotoUpload() {
 
       form.reset();
       setPreview(null);
+      setUploadedUrl(result.metadata.url); // 🆕
 
       if (fileInputRef.current) {
         fileInputRef.current.value = '';
       }
 
       router.refresh();
-
     } catch (error: any) {
       console.error('Error de subida:', error);
       toast({
@@ -157,65 +153,79 @@ export default function PhotoUpload() {
   };
 
   return (
-    <Card className="w-full max-w-lg mx-auto shadow-md">
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Upload className="w-5 h-5 text-primary" />
-          Comparte Tu Coche
-        </CardTitle>
-      </CardHeader>
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
-          <CardContent className="space-y-4">
-            <FormField
-              control={form.control}
-              name="image"
-              render={({ fieldState }) => (
-                <FormItem>
-                  <FormLabel htmlFor="image-upload">Foto</FormLabel>
-                  <FormControl>
-                    <Input
-                      id="image-upload"
-                      ref={fileInputRef}
-                      type="file"
-                      accept={ACCEPTED_IMAGE_TYPES.join(',')}
-                      className="file:text-foreground"
-                      onChange={handleFileChange}
-                    />
-                  </FormControl>
-                  {preview && (
-                    <div className="mt-4 w-full aspect-video relative rounded-md overflow-hidden border">
-                      <img src={preview} alt="Vista previa seleccionada" className="object-contain w-full h-full" />
-                    </div>
-                  )}
-                  <FormMessage>{fieldState.error?.message}</FormMessage>
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="caption"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Descripción (Opcional)</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Cuéntanos sobre tu coche..."
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </CardContent>
-          <CardFooter>
-            <Button type="submit" disabled={isSubmitting || !form.formState.isValid} className="w-full">
-              {isSubmitting ? 'Subiendo...' : 'Subir Foto'}
-            </Button>
-          </CardFooter>
-        </form>
-      </Form>
-    </Card>
+    <>
+      <Card className="w-full max-w-lg mx-auto shadow-md">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Upload className="w-5 h-5 text-primary" />
+            Comparte Tu Coche
+          </CardTitle>
+        </CardHeader>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)}>
+            <CardContent className="space-y-4">
+              <FormField
+                control={form.control}
+                name="image"
+                render={({ fieldState }) => (
+                  <FormItem>
+                    <FormLabel htmlFor="image-upload">Foto</FormLabel>
+                    <FormControl>
+                      <Input
+                        id="image-upload"
+                        ref={fileInputRef}
+                        type="file"
+                        accept={ACCEPTED_IMAGE_TYPES.join(',')}
+                        className="file:text-foreground"
+                        onChange={handleFileChange}
+                      />
+                    </FormControl>
+                    {preview && (
+                      <div className="mt-4 w-full aspect-video relative rounded-md overflow-hidden border">
+                        <img src={preview} alt="Vista previa seleccionada" className="object-contain w-full h-full" />
+                      </div>
+                    )}
+                    <FormMessage>{fieldState.error?.message}</FormMessage>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="caption"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Descripción (Opcional)</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder="Cuéntanos sobre tu coche..."
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </CardContent>
+            <CardFooter>
+              <Button type="submit" disabled={isSubmitting || !form.formState.isValid} className="w-full">
+                {isSubmitting ? 'Subiendo...' : 'Subir Foto'}
+              </Button>
+            </CardFooter>
+          </form>
+        </Form>
+      </Card>
+
+      {/* Imagen subida desde Cloudinary */}
+      {uploadedUrl && (
+        <div className="mt-6 max-w-lg mx-auto border rounded-lg overflow-hidden">
+          <img
+            src={uploadedUrl}
+            alt="Imagen subida"
+            className="object-contain w-full max-h-[500px]"
+          />
+        </div>
+      )}
+    </>
   );
 }
+
