@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Instagram, Youtube, Twitter, Twitch } from 'lucide-react';
+import { Instagram, Youtube, Twitter, Twitch, Film } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import AuthGate from '@/components/auth/AuthGate'; // 👈 Importar el AuthGate
@@ -10,7 +10,7 @@ const socialPlatforms = [
   {
     name: 'Instagram',
     icon: Instagram,
-    href: 'https://www.instagram.com/undergroundrace_?igsh=a2c0OXNqdHcxOWc4',
+    href: 'https://www.instagram.com/undergroundrace_/',
     description: 'Detrás de cámaras, destacados de eventos y features de la comunidad.',
     bgColor: 'bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500',
     textColor: 'text-white',
@@ -18,7 +18,7 @@ const socialPlatforms = [
   {
     name: 'YouTube',
     icon: Youtube,
-    href: '#',
+    href: 'https://www.youtube.com/@Underground_Race',
     description: 'Documentales completos, entrevistas exclusivas y contenido extendido.',
     bgColor: 'bg-red-600',
     textColor: 'text-white',
@@ -26,7 +26,7 @@ const socialPlatforms = [
   {
     name: 'Twitter',
     icon: Twitter,
-    href: 'https://x.com/undergroundrace',
+    href: 'https://x.com/undergrace_1',
     description: 'Actualizaciones rápidas, noticias breves y cobertura de eventos en vivo.',
     bgColor: 'bg-sky-500',
     textColor: 'text-white',
@@ -34,7 +34,7 @@ const socialPlatforms = [
   {
     name: 'TikTok',
     icon: Twitch,
-    href: 'https://www.tiktok.com/@_underground_race?_t=ZN-8w776nJIoFi&_r=1',
+    href: 'https://www.tiktok.com/@_underground_race?lang=es',
     description: 'Clips cortos, momentos del making-of y contenido de tendencia.',
     bgColor: 'bg-black',
     textColor: 'text-white',
