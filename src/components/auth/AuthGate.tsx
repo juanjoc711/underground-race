@@ -29,7 +29,7 @@ export default function AuthGate({ children }: { children: ReactNode }) {
           <img
             src="/imagenes/FotoFondo.jpeg"
             alt="Logo"
-            className="mx-auto h-24 w-auto object-contain"
+            className="mx-auto h-40 w-auto object-contain"
           />
         </div>
 
