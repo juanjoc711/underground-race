@@ -1,4 +1,3 @@
-// src/components/features/photo-upload.tsx
 "use client";
 
 import * as React from 'react';
@@ -6,8 +5,8 @@ import { useState, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { v4 as uuidv4 } from 'uuid';
 import { useRouter } from 'next/navigation';
+import { v4 as uuidv4 } from 'uuid';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -16,6 +15,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/componen
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Upload } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { useAuth } from '@/context/AuthContext'; // 👈 añadido
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
@@ -33,7 +33,6 @@ const formSchema = z.object({
 
 type PhotoUploadFormValues = z.infer<typeof formSchema>;
 
-// Helper function to read file as Data URL (still needed for preview)
 const readFileAsDataURL = (file: File): Promise<string> => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -43,14 +42,13 @@ const readFileAsDataURL = (file: File): Promise<string> => {
   });
 };
 
-
 export default function PhotoUpload() {
   const router = useRouter();
   const { toast } = useToast();
+  const { user } = useAuth(); // 👈 obtenido el usuario
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [preview, setPreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-
 
   const form = useForm<PhotoUploadFormValues>({
     resolver: zodResolver(formSchema),
@@ -90,20 +88,33 @@ export default function PhotoUpload() {
     const caption = values.caption;
 
     if (!file) {
-       toast({
-         variant: 'destructive',
-         title: 'No se seleccionó archivo',
-         description: 'Por favor, selecciona una imagen para subir.',
-       });
-       setIsSubmitting(false);
-       return;
+      toast({
+        variant: 'destructive',
+        title: 'No se seleccionó archivo',
+        description: 'Por favor, selecciona una imagen para subir.',
+      });
+      setIsSubmitting(false);
+      return;
     }
+
+    console.log('displayName:', user?.displayName);
+    console.log('email:', user?.email);
+
 
     const formData = new FormData();
     formData.append('image', file);
     if (caption) {
       formData.append('caption', caption);
     }
+
+    if (user?.displayName) {
+      formData.append('uploadedBy', user.displayName);
+    } else if (user?.email) {
+      formData.append('uploadedBy', user.email);
+    } else {
+      formData.append('uploadedBy', 'Anónimo');
+    }
+
 
     try {
       const response = await fetch('/api/upload', {
@@ -163,20 +174,20 @@ export default function PhotoUpload() {
                 <FormItem>
                   <FormLabel htmlFor="image-upload">Foto</FormLabel>
                   <FormControl>
-                     <Input
-                       id="image-upload"
-                       ref={fileInputRef}
-                       type="file"
-                       accept={ACCEPTED_IMAGE_TYPES.join(',')}
-                       className="file:text-foreground"
-                       onChange={handleFileChange}
-                     />
+                    <Input
+                      id="image-upload"
+                      ref={fileInputRef}
+                      type="file"
+                      accept={ACCEPTED_IMAGE_TYPES.join(',')}
+                      className="file:text-foreground"
+                      onChange={handleFileChange}
+                    />
                   </FormControl>
-                   {preview && (
+                  {preview && (
                     <div className="mt-4 w-full aspect-video relative rounded-md overflow-hidden border">
-                       <img src={preview} alt="Vista previa seleccionada" className="object-contain w-full h-full" />
-                     </div>
-                   )}
+                      <img src={preview} alt="Vista previa seleccionada" className="object-contain w-full h-full" />
+                    </div>
+                  )}
                   <FormMessage>{fieldState.error?.message}</FormMessage>
                 </FormItem>
               )}

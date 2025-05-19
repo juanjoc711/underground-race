@@ -1,12 +1,11 @@
 import Link from 'next/link';
-import { Instagram, Youtube, Twitter, Twitch } from 'lucide-react'; // Using Twitch for TikTok
+import { Instagram, Youtube, Twitter } from 'lucide-react'; // Eliminado Twitch
 
 const socialLinks = [
-  { platform: 'Instagram', icon: Instagram, href: 'https://www.instagram.com/undergroundrace_?igsh=a2c0OXNqdHcxOWc4' }, // Actualizado
-  { platform: 'YouTube', icon: Youtube, href: '#' },
-  { platform: 'Twitter', icon: Twitter, href: 'https://x.com/undergroundrace' }, // Actualizado
-  { platform: 'TikTok', icon: Twitch, href: 'https://www.tiktok.com/@_underground_race?_t=ZN-8w776nJIoFi&_r=1' }, // Actualizado, usando icono Twitch
-   // Eliminado Facebook
+  { platform: 'Instagram', icon: Instagram, href: 'https://www.instagram.com/undergroundrace_/', }, // Actualizado
+  { platform: 'YouTube', icon: Youtube, href: 'https://www.youtube.com/@Underground_Race', },
+  { platform: 'Twitter', icon: Twitter, href: 'https://x.com/undergrace_1' }, // Actualizado
+  // TikTok eliminado
 ];
 
 export default function Footer() {
@@ -15,10 +14,10 @@ export default function Footer() {
       <div className="container py-8 flex flex-col md:flex-row items-center justify-between gap-4">
         <div className="text-center md:text-left">
           <p className="text-sm text-muted-foreground">
-            &copy; {new Date().getFullYear()} Underground Race. Todos los derechos reservados. {/* Traducción */}
+            &copy; {new Date().getFullYear()} 
           </p>
           <p className="text-xs text-muted-foreground mt-1">
-            Los beneficios apoyan a ONGs de víctimas de tráfico. {/* Traducción */}
+            
           </p>
         </div>
         <div className="flex items-center gap-4">
@@ -32,3 +31,4 @@ export default function Footer() {
     </footer>
   );
 }
+

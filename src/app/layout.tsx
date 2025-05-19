@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import { Toaster } from '@/components/ui/toaster';
+import { AuthProvider } from '@/context/AuthContext'; // ✅ Importado
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -17,8 +18,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Underground Rides', // Manteniendo el nombre principal
-  description: 'Comunidad para entusiastas de coches underground', // Traducción
+  title: 'Underground Rides',
+  description: 'Comunidad para entusiastas de coches underground',
 };
 
 export default function RootLayout({
@@ -28,7 +29,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" className="dark">
-      {/* No whitespace or comments should be directly *within* the <html> tag */}
       <body
         className={cn(
           'min-h-screen bg-background font-sans antialiased',
@@ -36,12 +36,14 @@ export default function RootLayout({
           geistMono.variable
         )}
       >
-        <div className="relative flex min-h-screen flex-col">
-          <Header />
-          <main className="flex-1">{children}</main>
-          <Footer />
-        </div>
-        <Toaster />
+        <AuthProvider> {/* ✅ Envolvemos la app con AuthProvider */}
+          <div className="relative flex min-h-screen flex-col">
+            <Header />
+            <main className="flex-1">{children}</main>
+            <Footer />
+          </div>
+          <Toaster />
+        </AuthProvider>
       </body>
     </html>
   );
