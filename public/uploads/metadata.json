@@ -126,5 +126,37 @@
     "caption": "Ejemplo",
     "uploadedAt": "2025-05-18T11:18:34.316Z",
     "uploadedBy": "Maria"
+  },
+  {
+    "id": "9defe4a3-be53-4d42-b351-2464c3386f50",
+    "url": "/uploads/8a93156c-9922-4aee-af36-ae84fd30bb05.jpg",
+    "alt": "Uploaded image 8a93156c-9922-4aee-af36-ae84fd30bb05.jpg",
+    "caption": "",
+    "uploadedAt": "2025-05-19T16:13:36.617Z",
+    "uploadedBy": "Barbara"
+  },
+  {
+    "id": "2a970cb7-0792-46ed-b0ee-8337a553ce99",
+    "url": "/uploads/fd7c4135-8a8f-43a1-a739-a98432ef3a16.webp",
+    "alt": "Uploaded image fd7c4135-8a8f-43a1-a739-a98432ef3a16.webp",
+    "caption": "",
+    "uploadedAt": "2025-05-19T16:17:05.362Z",
+    "uploadedBy": "Barbara"
+  },
+  {
+    "id": "67b9f7ec-ab26-4b80-bef3-c5096b51e388",
+    "url": "/uploads/bd34b918-2594-46c3-a05c-2704ddb252f6.jpeg",
+    "alt": "Uploaded image bd34b918-2594-46c3-a05c-2704ddb252f6.jpeg",
+    "caption": "",
+    "uploadedAt": "2025-05-19T16:30:17.698Z",
+    "uploadedBy": "Barbara"
+  },
+  {
+    "id": "cd834831-5cd1-40aa-a9b3-18ac421dbe75",
+    "url": "/uploads/ebc051a4-8b15-482d-a649-4da52736e2dd.jpeg",
+    "alt": "Uploaded image ebc051a4-8b15-482d-a649-4da52736e2dd.jpeg",
+    "caption": "",
+    "uploadedAt": "2025-05-19T16:48:16.860Z",
+    "uploadedBy": "Barbara"
   }
 ]
